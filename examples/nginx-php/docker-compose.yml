@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+    web:
+        restart: always
+        image: nginx:latest
+        labels:
+            - "traefik.http.routers.nginx-php.rule=Host(`nginx-php.local.wearesweet.co.uk`)"
+            - "traefik.http.routers.blw-nginx-php.rule=Host(`nginx-php.local.blw.sh`)"
+            - "traefik.enable=true"
+        expose:
+            - 80
+        volumes:
+            - ./src:/src/:rw,cached
+            - ./etc/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+        env_file:
+            - ./.env
+        links:
+            - php
+            - db
+        networks:
+            - traefik
+            - internal
+    php:
+        restart: always
+        build: .
+        labels:
+            - "traefik.enable=false"
+        expose:
+            - 9000
+        volumes:
+            - ./src:/src/:rw,cached
+            - ./etc/php.ini:/usr/local/etc/php/conf.d/00_base-example.ini:ro
+        env_file:
+            - ./.env
+        depends_on:
+            - db
+        networks:
+            - internal
+    db:
+        image: mysql:5.6.41
+        labels:
+            - "traefik.enable=false"
+        volumes:
+            - db-data:/var/lib/mysql/data
+        env_file:
+            - ./.env
+        networks:
+            - internal
+volumes:
+    db-data:
+networks:
+    traefik:
+        external: true
+        name: traefik
+    internal:
+        name: internal
