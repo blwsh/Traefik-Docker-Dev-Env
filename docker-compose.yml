@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  traefik:
+    restart: always
+    image: traefik
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+#      - ./etc/traefik:/etc/traefik
+    networks:
+      - traefik
+  dns:
+    restart: always
+    image: strm/dnsmasq
+    volumes:
+      - ./etc/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
+    ports:
+      - "53:53/udp"
+    cap_add:
+      - NET_ADMIN
+networks:
+  traefik:
+    external: true

@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: containous/whoami
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.local.wearesweet.co.uk`)"
+      - "traefik.http.routers.blw-whoami.rule=Host(`whoami.local.blw.sh`)"
+networks:
+  default:
+    external:
+      name: traefik
+
