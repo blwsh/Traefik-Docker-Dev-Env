@@ -1,0 +1,32 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+ping: {}
+log: {}
+accessLog: {}
+metrics:
+  influxDB: {}
+api:
+  dashboard: true
+  insecure: true
+providers:
+  docker:
+    defaultRule: 'Host(`{{ normalize .Name }}.local.wearesweet.co.uk`)'
+    exposedByDefault: false
+    network: traefik
+entryPoints:
+  web:
+    address: ':80'
+  websecure:
+    address: ':443'
+certificatesResolvers:
+  cloudflare:
+    acme:
+      email: ben@blw.sh
+      storage: acme.json
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
+

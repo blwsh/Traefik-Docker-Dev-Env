@@ -1,13 +1,27 @@
 version: '3.7'
 
 services:
+    ide:
+        image: codercom/code-server:latest
+        labels:
+            - "traefik.http.services.nginx-php-ide-ide.loadbalancer.server.port=8080"
+            - "traefik.http.routers.nginx-php-ide-ide.rule=Host(`ide.nginx-php.local.blw.sh`)"
+            - "traefik.http.routers.nginx-php-ide-ide.tls.certresolver=cloudflare"
+            - "traefik.http.routers.nginx-php-ide-ide.tls=true"
+            - "traefik.enable=true"
+        volumes:
+            - ./src:/home/coder/project
+        ports:
+        - 8081:8080
+        networks:
+            - traefik
     web:
         restart: always
         image: nginx:latest
         labels:
-            - "traefik.http.routers.nginx-php.rule=Host(`nginx-php.local.blw.sh`)"
-            - "traefik.http.routers.nginx-php.tls.certresolver=cloudflare"
-            - "traefik.http.routers.nginx-php.tls=true"
+            - "traefik.http.routers.nginx-php-ide-app.rule=Host(`nginx-php-ide-app.local.blw.sh`)"
+            - "traefik.http.routers.nginx-php-ide-app.tls.certresolver=cloudflare"
+            - "traefik.http.routers.nginx-php-ide-app.tls=true"
             - "traefik.enable=true"
         expose:
             - 80

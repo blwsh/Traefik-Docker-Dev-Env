@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: containous/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tunnel-whoami.rule=Host(`tunnel.whoami.local.blw.sh`)"
+      - "traefik.http.routers.tunnel-whoami.tls.certresolver=cloudflare"
+      - "traefik.http.routers.tunnel-whoami.tls=true"
+  tunnel:
+    image: alpine/git
+    tty: true
+    stdin_open: true
+    restart: always
+    entrypoint: ssh -oStrictHostKeyChecking=no -R whoami.local.deployment.run:80:whoami:80 deployment.run -p 1337 -y
+networks:
+  default:
+    external:
+      name: traefik

@@ -5,13 +5,18 @@ services:
     restart: always
     image: traefik
     command: --api.insecure=true --providers.docker
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.local.wearesweet.co.uk`)"
+    env_file:
+      - .env
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-#      - ./etc/traefik:/etc/traefik
+      - ./etc/traefik:/etc/traefik
     networks:
       - traefik
   dns:
@@ -23,6 +28,20 @@ services:
       - "53:53/udp"
     cap_add:
       - NET_ADMIN
+  local-mysql:
+    restart: always
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+    - mysql-data:/var/lib/mysql
+    networks:
+        - traefik
+volumes:
+  mysql-data:
 networks:
   traefik:
     external: true

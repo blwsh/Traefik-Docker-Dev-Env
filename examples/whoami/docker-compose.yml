@@ -5,10 +5,11 @@ services:
     # A container that exposes an API to show its IP address
     image: containous/whoami
     labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.local.wearesweet.co.uk`)"
+      - "traefik.enable=true"
       - "traefik.http.routers.blw-whoami.rule=Host(`whoami.local.blw.sh`)"
+      - "traefik.http.routers.blw-whoami.tls.certresolver=cloudflare"
+      - "traefik.http.routers.blw-whoami.tls=true"
 networks:
   default:
     external:
       name: traefik
-
