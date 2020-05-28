@@ -1,4 +1,6 @@
-## Debugging
+## General Debugging
+
+### Mac
 
 * `nslookup <domain>` - Looks up DNS for domain
 * `sudo killall -HUP mDNSResponder` - Reset the DNS cache in OS X v10.10.4 or later:
