@@ -2,6 +2,12 @@
 
 Traefik can be used as a reverse proxy for your docker containers. It enables to automatically create virtual hosts and SSL certificates for environments.
 
+## Setup
+
+1. Duplicate the .env.example file and call it .env. Replace the example credentials with your Cloudflare credentials.
+2. Add 127.0.0.1 to your systems DNS.
+3. Run `docker-compose up -d`
+
 ## General Debugging
 
 ### Mac
