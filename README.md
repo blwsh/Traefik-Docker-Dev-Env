@@ -5,6 +5,8 @@
 
 # Add DNS Server
 
+To use custom domains (I.E domains not ending in .localhost) you need to tell your machine to use your local DNS server. The gif below shows how to do this on Mac.
+
 ![](resources/dns-mac.gif)
 
 ## Clear browser dns cache
