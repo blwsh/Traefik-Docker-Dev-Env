@@ -19,15 +19,6 @@ services:
       - ./etc/traefik:/etc/traefik
     networks:
       - traefik
-  dns:
-    restart: always
-    image: strm/dnsmasq
-    volumes:
-      - ./etc/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
-    ports:
-      - "53:53/udp"
-    cap_add:
-      - NET_ADMIN
   local-mysql:
     restart: always
     image: mysql:8
@@ -40,6 +31,20 @@ services:
     - mysql-data:/var/lib/mysql
     networks:
         - traefik
+
+  # Disabled due to browsers shitting the bed if the DNS server goes down for a second. Using local dnsmasq instead.
+  # If you're on Windows you need to find a dnsmasq alternative or make sure dnsmasq running in a container never
+  # ever restarts unless you enjoy your browser bricking.
+
+  # dns:
+  #   restart: always
+  #   image: strm/dnsmasq
+  #   volumes:
+  #     - ./etc/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
+  #   ports:
+  #     - "53:53/udp"
+  #   cap_add:
+  #     - NET_ADMIN
 volumes:
   mysql-data:
 networks:
