@@ -11,7 +11,7 @@ api:
   insecure: true
 providers:
   docker:
-    defaultRule: 'Host(`{{ normalize .Name }}.local.wearesweet.co.uk`)'
+    defaultRule: 'Host(`{{ normalize .Name }}.local.designbysweet.com`)'
     exposedByDefault: false
     network: traefik
 entryPoints:
@@ -19,6 +19,12 @@ entryPoints:
     address: ':80'
   websecure:
     address: ':443'
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /.cetrs/proxy.crt
+        keyFile: /.certs/to/proxy.key
 certificatesResolvers:
   cloudflare:
     acme:

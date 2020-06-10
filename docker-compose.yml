@@ -17,7 +17,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./etc/traefik:/etc/traefik
-      - ./certs:/.certs
+      - ./.certs:/.certs
     networks:
       - traefik
   local-mysql:
