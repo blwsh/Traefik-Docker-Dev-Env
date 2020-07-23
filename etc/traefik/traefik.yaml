@@ -3,9 +3,6 @@ global:
   sendAnonymousUsage: false
 ping: {}
 log: {}
-accessLog: {}
-metrics:
-  influxDB: {}
 api:
   dashboard: true
   insecure: true
@@ -14,17 +11,14 @@ providers:
     defaultRule: 'Host(`{{ normalize .Name }}.local.designbysweet.com`)'
     exposedByDefault: false
     network: traefik
+  file:
+    filename: /etc/traefik/providers/tls.yml
+    watch: true
 entryPoints:
   web:
     address: ':80'
   websecure:
     address: ':443'
-tls:
-  stores:
-    default:
-      defaultCertificate:
-        certFile: /.cetrs/proxy.crt
-        keyFile: /.certs/to/proxy.key
 certificatesResolvers:
   cloudflare:
     acme:
@@ -35,4 +29,3 @@ certificatesResolvers:
         resolvers:
           - "1.1.1.1:53"
           - "1.0.0.1:53"
-

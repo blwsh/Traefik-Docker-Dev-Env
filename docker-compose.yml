@@ -9,6 +9,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
       - "traefik.http.routers.dashboard.rule=Host(`dashboard.local.designbysweet.com`)"
+      - "traefik.http.routers.dashboard.tls=true"
     env_file:
       - .env
     ports:
@@ -31,7 +32,7 @@ services:
     volumes:
     - mysql-data:/var/lib/mysql
     networks:
-        - traefik
+        - local-mysql
   # Disabled due to browsers shitting the bed if the DNS server goes down for a second. Using local dnsmasq instead.
   # If you're on Windows you need to find a dnsmasq alternative or make sure dnsmasq running in a container never
   # ever restarts unless you enjoy your browser bricking.
@@ -48,5 +49,7 @@ services:
 volumes:
   mysql-data:
 networks:
+  local-mysql:
+    external: true
   traefik:
     external: true
