@@ -1,0 +1,60 @@
+{
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "containerDefinitions": [
+    {
+      "name": "nginx",
+      "image": "nginx",
+      "resourceRequirements": null,
+      "essential": true,
+      "portMappings": [],
+      "environment": null,
+      "environmentFiles": [],
+      "secrets": null,
+      "mountPoints": null,
+      "volumesFrom": null,
+      "hostname": null,
+      "user": null,
+      "workingDirectory": null,
+      "extraHosts": null,
+      "logConfiguration": null,
+      "ulimits": null,
+      "dockerLabels": null,
+      "dependsOn": null,
+      "repositoryCredentials": {
+        "credentialsParameter": ""
+      }
+    },
+    {
+      "name": "whoami",
+      "image": "containous/whoami",
+      "resourceRequirements": null,
+      "essential": true,
+      "portMappings": [],
+      "environment": null,
+      "environmentFiles": [],
+      "secrets": null,
+      "mountPoints": null,
+      "volumesFrom": null,
+      "hostname": null,
+      "user": null,
+      "workingDirectory": null,
+      "extraHosts": null,
+      "logConfiguration": null,
+      "ulimits": null,
+      "dockerLabels": null,
+      "dependsOn": null,
+      "repositoryCredentials": {
+        "credentialsParameter": ""
+      }
+    }
+  ],
+  "volumes": [],
+  "networkMode": "awsvpc",
+  "memory": "128",
+  "cpu": "128",
+  "placementConstraints": [],
+  "family": "pto",
+  "tags": []
+}
